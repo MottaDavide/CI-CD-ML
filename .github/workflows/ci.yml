@@ -24,3 +24,8 @@ jobs:
         run: make eval
       - name: Clean
         run: make clean
+      - name: Update Branch
+        env:
+          NAME: ${{ secrets.USR_NAME }}
+          EMAIL: ${{ secrets.USR_EMAIL }}
+        run: make update-branch USER_NAME=$NAME USER_EMAIL=$EMAIL
