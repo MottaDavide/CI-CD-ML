@@ -22,3 +22,5 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.TOKEN_GIT }}
         run: make eval
+      - name: Clean
+        run: make clean
