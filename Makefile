@@ -34,7 +34,7 @@ hf-login:
 
 push-hub:
 	huggingface-cli upload davidemotta/CI-CD-ML ./app  /src --repo-type=space --commit-message="Sync App files"
-	huggingface-cli upload davidemotta/CI-CD-ML ./model /src/model --repo-type=space --commit-message="Sync Model"
-	huggingface-cli upload davidemotta/CI-CD-ML ./results /src/metrics --repo-type=space --commit-message="Sync Model"
+	huggingface-cli upload davidemotta/CI-CD-ML ./model /model --repo-type=space --commit-message="Sync Model"
+	huggingface-cli upload davidemotta/CI-CD-ML ./results /metrics --repo-type=space --commit-message="Sync Model"
 
 deploy:	hf-login push-hub
