@@ -8,6 +8,6 @@ app_port: 8501
 tags:
 - streamlit
 pinned: false
-short_description: This repository is meant to delve the notion of MLOps throughout GitHub Actions and HuggingFace Space
+short_description: Notion of MLOps throughout GitHub Actions
 license: mit
 ---
