@@ -3,7 +3,7 @@ import skops.io as sio
 import pandas as pd
 from typing import List, Dict
 
-MODEL_PATH = "./model/drug_pipeline.skops"
+MODEL_PATH = "model/drug_pipeline.skops"
 
 st.set_page_config(page_title="Drug Classification", page_icon="💊", layout="centered")
 st.title("Drug Classification 💊")
