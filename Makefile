@@ -4,7 +4,7 @@ install:
 	conda env update --file env.yaml --prune || conda env create --file env.yaml
 
 format:
-	conda run -n $(CONDA_ENV) black *.py
+	black *.py
 
 train:
 	conda run -n $(CONDA_ENV) python train.py
