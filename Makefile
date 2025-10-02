@@ -20,7 +20,7 @@ clean:
 	conda env remove -n $(CONDA_ENV) -y
 
 update-branch:
-	git config --global user.name $(USER_NAME)
-	git config --global user.email $(USER_EMAIL)
+	git config --global user.name $(USR_NAME)
+	git config --global user.email $(USR_EMAIL)
 	git commit -am "Update with new results"
 	git push --force origin HEAD:update
