@@ -2,29 +2,32 @@ import streamlit as st
 import skops.io as sio
 import pandas as pd
 from typing import List, Dict
+from pathlib import Path
 
-MODEL_PATH = "model/drug_pipeline.skops"
+MODEL_PATH = Path(__file__).resolve().parent.parent / "model" / "drug_pipeline.skops"
 
 st.set_page_config(page_title="Drug Classification", page_icon="💊", layout="centered")
 st.title("Drug Classification 💊")
 
 # --------- LOAD PIPELINE (skops >= 0.10) ----------
 @st.cache_resource
-def load_pipeline(path: str):
+def load_pipeline(path: Path):
+    path = Path(path).resolve()
+    if not path.exists():
+        raise FileNotFoundError(f"Modello non trovato in: {path}")
     try:
         return sio.load(path)  # primo tentativo
     except sio.exceptions.UntrustedTypesFoundException:
         # da skops 0.10 si chiama SENZA argomenti
-        untrusted = sio.get_untrusted_types(file = path)
-        # Se vuoi, mostra a video per audit
+        untrusted = sio.get_untrusted_types(file=path)
+        # se vuoi mostrare a video per audit/debug
         st.info(f"Carico il modello autorizzando questi tipi: {untrusted}")
         return sio.load(path, trusted=untrusted)
 
 try:
     pipe = load_pipeline(MODEL_PATH)
 except Exception as e:
-    print(MODEL_PATH)
-    st.error(f"Errore nel caricamento del modello: {e}")
+    st.error(f"Errore nel caricamento del modello: {e}, {MODEL_PATH}")
     st.stop()
 
 # --------- EXPECTED COLUMNS DETECTION ----------
