@@ -20,7 +20,12 @@ def load_pipeline(path: str):
         st.info(f"Carico il modello autorizzando questi tipi: {untrusted}")
         return sio.load(path, trusted=untrusted)
 
-pipe = load_pipeline(MODEL_PATH)
+try:
+    pipe = load_pipeline(MODEL_PATH)
+except Exception as e:
+    print(MODEL_PATH)
+    st.error(f"Errore nel caricamento del modello: {e}")
+    st.stop()
 
 # --------- EXPECTED COLUMNS DETECTION ----------
 def get_expected_columns(pipeline) -> List[str]:
