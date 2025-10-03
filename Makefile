@@ -26,15 +26,14 @@ update-branch:
 	git push --force origin HEAD:update
 
 hf-login:
-	git fetch origin update
+	git pull origin update
 	git switch update
-	git reset --hard origin/update
 	pip install -U "huggingface_hub[cli]"
-	huggingface-cli login --token $(HF) --add-to-git-credential
+	hf auth login --token $(HF) --add-to-git-credential
 
 push-hub:
-	huggingface-cli upload davidemotta/CI-CD-ML ./app  /src --repo-type=space --commit-message="Sync App files"
-	huggingface-cli upload davidemotta/CI-CD-ML ./model /model --repo-type=space --commit-message="Sync Model"
-	huggingface-cli upload davidemotta/CI-CD-ML ./results /metrics --repo-type=space --commit-message="Sync Model"
+	hf upload davidemotta/CI-CD-ML ./app  /src --repo-type=space --commit-message="Sync App files"
+	hf upload davidemotta/CI-CD-ML ./model /model --repo-type=space --commit-message="Sync Model"
+	hf upload davidemotta/CI-CD-ML ./results /metrics --repo-type=space --commit-message="Sync Model"
 
 deploy:	hf-login push-hub
