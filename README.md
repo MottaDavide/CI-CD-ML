@@ -96,6 +96,22 @@ Automatically formats all Python files in the current directory using Black code
 
 ---
 
+### Target: `test`
+
+```makefile
+test:
+    conda run -n $(CONDA_ENV) pytest -q
+```
+
+**What it does**:
+1. Activates the specified Conda environment
+2. Runs tests using `pytest` in quiet mode (`-q`)
+
+
+**When to use**: Every time code changes are made to ensure no regressions.
+
+---
+
 ### Target: `train`
 
 ```makefile
@@ -406,7 +422,25 @@ Creates or updates the Conda environment with all required dependencies (scikit-
 
 ---
 
-##### Step 4: Train Model
+##### Step 4: Tests
+  
+  ```yaml
+
+      - name: Run unit tests
+        run: make test 
+
+      - name: All tests passed 🎉
+        if: ${{ success() }}
+        run: echo "✅ Tutti i test sono passati con successo!"
+  ```
+
+**Executes**: `conda run -n drug_cicd pytest -q`
+
+Runs unit tests using `pytest` to ensure code correctness before training.
+
+  ---
+
+##### Step 5: Train Model
 
 ```yaml
 - name: Train
@@ -423,7 +457,7 @@ Trains the machine learning model:
 
 ---
 
-##### Step 5: Evaluation
+##### Step 6: Evaluation
 
 ```yaml
 - name: Evaluation
@@ -445,7 +479,7 @@ Trains the machine learning model:
 
 ---
 
-##### Step 6: Clean
+##### Step 7: Clean
 
 ```yaml
 - name: Clean
@@ -488,11 +522,12 @@ Removes the Conda environment to:
 
 1. **Trigger**: Code push or PR creation
 2. **Setup**: Checkout code → Install CML → Create environment
-3. **Training**: Train model with new code/data
-4. **Evaluation**: Generate metrics → Post to PR
-5. **Cleanup**: Remove environment
-6. **Commit**: Push results to `update` branch
-7. **Deploy**: Triggers CD workflow (automatic deployment)
+3. **Testing**: Run unit tests
+4. **Training**: Train model with new code/data
+5. **Evaluation**: Generate metrics → Post to PR
+6. **Cleanup**: Remove environment
+7. **Commit**: Push results to `update` branch
+8. **Deploy**: Triggers CD workflow (automatic deployment)
 
 ---
 
