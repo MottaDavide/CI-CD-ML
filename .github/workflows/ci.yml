@@ -21,6 +21,7 @@ jobs:
         run: make test 
 
       - name: All tests passed 🎉
+        if: ${{ success() }}
         run: echo "✅ Tutti i test sono passati con successo!"
 
       - name: Train
