@@ -3,10 +3,12 @@
 import os
 from mlflow.tracking import MlflowClient
 import dagshub
+import mlflow
 
 OWNER = os.getenv("DAGSHUB_USERNAME")
 REPO  = os.getenv("DAGSHUB_REPO")
 TOKEN = os.getenv("DAGSHUB_TOKEN")
+MODEL_NAME = os.getenv("REGISTERED_MODEL_NAME", "DrugPipeline")
 
 if OWNER and REPO and TOKEN:
     # setta esplicitamente l’autenticazione via token
