@@ -7,8 +7,14 @@ import pandas as pd
 import streamlit as st
 import skops.io as sio
 from dotenv import load_dotenv
+
+
 env_path = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
+if env_path.exists():
+    load_dotenv(dotenv_path=env_path)
+    print(f"✅ Loaded .env from {env_path}")
+else:
+    print("ℹ️ No .env file found, using environment variables")
 #
 
 # =========================
