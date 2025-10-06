@@ -23,13 +23,30 @@ jobs:
       - name: All tests passed 🎉
         if: ${{ success() }}
         run: echo "✅ Tutti i test sono passati con successo!"
-
-      - name: Train
+        
+ 
+      - name: Train (log to DagsHub MLflow)
+        env:
+          DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+          DAGSHUB_REPO: ${{ secrets.DAGSHUB_REPO }}
+          MLFLOW_EXPERIMENT_NAME: Drug_Classification
+          REGISTERED_MODEL_NAME: DrugPipeline
         run: make train
+
       - name: Evaluation
         env:
           REPO_TOKEN: ${{ secrets.TOKEN_GIT }}
         run: make eval
+
+      - name: Promote best model (Staging→Production)
+        env:
+          DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+          DAGSHUB_REPO: ${{ secrets.DAGSHUB_REPO }}
+          REGISTERED_MODEL_NAME: DrugPipeline
+        run: conda run -n drug_cicd python promote_model.py
+
       - name: Clean
         run: make clean
       - name: Update Branch
