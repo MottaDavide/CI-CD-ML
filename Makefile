@@ -44,5 +44,6 @@ push-hub:
 	hf upload davidemotta/CI-CD-ML ./app  /src --repo-type=space --commit-message="Sync App files"
 	hf upload davidemotta/CI-CD-ML ./model /model --repo-type=space --commit-message="Sync Model"
 	hf upload davidemotta/CI-CD-ML ./results /metrics --repo-type=space --commit-message="Sync Model"
+	hf upload davidemotta/CI-CD-ML ./app/requirements.txt /requirements.txt --repo-type=space --commit-message="Sync root requirements"
 
 deploy:	hf-login push-hub

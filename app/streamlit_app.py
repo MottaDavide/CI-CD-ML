@@ -6,6 +6,9 @@ from typing import List, Dict, Tuple
 import pandas as pd
 import streamlit as st
 import skops.io as sio
+from dotenv import load_dotenv
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 #
 
 # =========================
@@ -70,14 +73,32 @@ def load_pipeline_from_skops(path: Path):
         pipe = sio.load(path, trusted=untrusted)
     return pipe, f"Local skops · {path.name}"
 
+if st.sidebar.button("🔄 Force Reload Model"):
+    st.cache_resource.clear()
+    st.rerun()
+    
+st.write("### Debug Info")
+st.write(f"USE_MLFLOW: {os.getenv('USE_MLFLOW', '0')}")
+st.write(f"DAGSHUB_USERNAME: {os.getenv('DAGSHUB_USERNAME', 'NOT SET')}")
+st.write(f"DAGSHUB_REPO: {os.getenv('DAGSHUB_REPO', 'NOT SET')}")
+st.write(f"DAGSHUB_TOKEN: {'SET' if os.getenv('DAGSHUB_TOKEN') else 'NOT SET'}")
 
 def load_pipeline_prod() -> Tuple[object, str]:
     """Tenta MLflow se USE_MLFLOW=1, altrimenti fallback locale."""
-    if USE_MLFLOW:
+    use_mlflow = os.getenv("USE_MLFLOW", "0") == "1"
+    st.write(f"🔍 USE_MLFLOW={use_mlflow}")  # Debug
+    
+    if use_mlflow:
+        st.write("🚀 Tentativo caricamento da MLflow...")  # Debug
         try:
-            return load_pipeline_from_mlflow(REGISTERED_MODEL_NAME)
+            result = load_pipeline_from_mlflow(REGISTERED_MODEL_NAME)
+            st.write("✅ Modello caricato da MLflow!")  # Debug
+            return result
         except Exception as e:
             st.warning(f"Caricamento da MLflow fallito: {e}\n→ Fallback locale.")
+    else:
+        st.write("📁 Caricamento modello locale (USE_MLFLOW non attivo)")  # Debug
+    
     return load_pipeline_from_skops(MODEL_PATH)
 
 
