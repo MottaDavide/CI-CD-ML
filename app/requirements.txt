@@ -3,3 +3,5 @@ pandas
 streamlit
 skops
 scikit-learn
+mlflow>=2,<3
+dagshub
