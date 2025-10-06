@@ -18,8 +18,10 @@ if OWNER and REPO and TOKEN:
     mlflow.set_experiment(os.getenv("MLFLOW_EXPERIMENT_NAME", "Drug_Classification"))
     print(f"✅ MLflow configurato su DagsHub: {OWNER}/{REPO}")
 else:
-    mlflow.set_tracking_uri("file://mlruns")
-    print("⚠️ DagsHub env non trovate → uso tracking locale (mlruns/)")
+    # Usa un path locale (no URI)
+    local_uri = os.path.abspath("mlruns")
+    mlflow.set_tracking_uri(local_uri)
+    print(f"⚠️ DagsHub env non trovate → uso tracking locale ({local_uri})")
 
 
 
