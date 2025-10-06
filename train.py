@@ -16,6 +16,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
 # --- DagsHub + MLflow ---
 import dagshub
@@ -70,7 +71,7 @@ num_t = Pipeline([("imputer", SimpleImputer(strategy="median")), ("scaler", Stan
 cat_t = Pipeline([("oe", OrdinalEncoder())])
 pre = ColumnTransformer([("num", num_t, num_cols), ("cat", cat_t, cat_cols)])
 
-rf  = RandomForestClassifier(random_state=RANDOM_STATE, n_estimators=5, class_weight="balanced", n_jobs=-1, max_depth=10)
+rf  = DecisionTreeClassifier(random_state=RANDOM_STATE)
 clf = Pipeline([("preprocessor", pre), ("classifier", rf)])
 
 with mlflow.start_run() as run:
