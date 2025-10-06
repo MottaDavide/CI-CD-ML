@@ -3,18 +3,29 @@
 import os
 from mlflow.tracking import MlflowClient
 import dagshub
+import mlflow
 
 OWNER = os.getenv("DAGSHUB_USERNAME")
-REPO = os.getenv("DAGSHUB_REPO")
+REPO  = os.getenv("DAGSHUB_REPO")
 TOKEN = os.getenv("DAGSHUB_TOKEN")
 MODEL_NAME = os.getenv("REGISTERED_MODEL_NAME", "DrugPipeline")
 
-if not (OWNER and REPO and TOKEN):
-    raise SystemExit("❌ DAGSHUB_* env non configurate (USERNAME, REPO, TOKEN)")
+if OWNER and REPO and TOKEN:
+    # setta esplicitamente l’autenticazione via token
+    os.environ["MLFLOW_TRACKING_USERNAME"] = OWNER
+    os.environ["MLFLOW_TRACKING_PASSWORD"] = TOKEN
+    os.environ["MLFLOW_TRACKING_URI"] = f"https://dagshub.com/{OWNER}/{REPO}.mlflow"
+    mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URI"])
+    mlflow.set_experiment(os.getenv("MLFLOW_EXPERIMENT_NAME", "Drug_Classification"))
+    print(f"✅ MLflow configurato su DagsHub: {OWNER}/{REPO}")
+    # Usa un path locale (no URI)
+else:
+    local_uri = os.path.abspath("mlruns")
+    mlflow.set_tracking_uri(local_uri)
+    print(f"⚠️ DagsHub env non trovate → uso tracking locale ({local_uri})")
 
-os.environ["MLFLOW_TRACKING_USERNAME"] = OWNER
-os.environ["MLFLOW_TRACKING_PASSWORD"] = TOKEN
-dagshub.init(repo_owner=OWNER, repo_name=REPO, mlflow=True)
+
+
 
 client = MlflowClient()
 
