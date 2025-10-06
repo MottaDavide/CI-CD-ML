@@ -6,6 +6,12 @@ install:
 format:
 	black *.py
 
+test:
+	conda run -n $(CONDA_ENV) pytest -q
+	
+coverage:
+	conda run -n $(CONDA_ENV) pytest --cov=./ --cov-report=term --cov-report=xml --cov-fail-under=60
+
 train:
 	conda run -n $(CONDA_ENV) python train.py
 

@@ -16,6 +16,13 @@ jobs:
       - uses: iterative/setup-cml@v2
       - name: Install Packages
         run: make install
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Coverage gate (>=60%)
+        run: make coverage
+
       - name: Train
         run: make train
       - name: Evaluation
