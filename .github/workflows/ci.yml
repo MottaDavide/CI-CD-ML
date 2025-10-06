@@ -51,7 +51,7 @@ jobs:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
           DAGSHUB_REPO: ${{ secrets.DAGSHUB_REPO }}
           REGISTERED_MODEL_NAME: DrugPipeline
-        run: conda run -n drug_cicd python promote_model.py
+        run: make promote
 
       - name: Clean
         run: make clean

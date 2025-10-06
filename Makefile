@@ -22,6 +22,9 @@ eval:
 	echo '![Confusion Matrix](./results/model_results.png)' >> report.md
 	conda run -n $(CONDA_ENV) cml comment create report.md
 
+promote:
+	conda run -n $(CONDA_ENV) python promote_model.py
+
 clean:
 	conda env remove -n $(CONDA_ENV) -y
 
