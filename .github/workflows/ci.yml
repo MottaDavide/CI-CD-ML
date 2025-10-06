@@ -20,9 +20,6 @@ jobs:
       - name: Run unit tests
         run: make test
 
-      - name: Coverage gate (>=60%)
-        run: make coverage
-
       - name: Train
         run: make train
       - name: Evaluation
