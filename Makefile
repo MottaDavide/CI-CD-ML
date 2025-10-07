@@ -29,14 +29,17 @@ clean:
 	conda env remove -n $(CONDA_ENV) -y
 
 update-branch:
+	git remote -v
 	git config --global user.name $(USER_NAME)
 	git config --global user.email $(USER_EMAIL)
 	git commit -am "Update with new results"
 	git push --force origin HEAD:update
 
 hf-login:
+	git remote -v
 	git pull origin update
 	git switch update
+	git remote -v
 	pip install -U "huggingface_hub[cli]"
 	hf auth login --token $(HF) --add-to-git-credential
 
