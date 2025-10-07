@@ -17,14 +17,14 @@ jobs:
       - name: Install Packages
         run: make install
 
-      #- name: Run unit tests
-       # env:
-        #  DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
-        #  DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
-        #  DAGSHUB_REPO: ${{ secrets.DAGSHUB_REPO }}
-        #  MLFLOW_EXPERIMENT_NAME: Drug_Classification
-        #  REGISTERED_MODEL_NAME: DrugPipeline
-        #run: make test 
+      - name: Run unit tests
+        env:
+          DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+          DAGSHUB_REPO: ${{ secrets.DAGSHUB_REPO }}
+          MLFLOW_EXPERIMENT_NAME: Drug_Classification
+          REGISTERED_MODEL_NAME: DrugPipeline
+        run: make test 
 
       - name: All tests passed 🎉
         if: ${{ success() }}
