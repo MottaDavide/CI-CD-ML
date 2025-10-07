@@ -14,7 +14,14 @@ license: mit
 
 
 # 💊 Drug Classification - CI/CD notions
-This repository is meant to delve the notion of MLOps throughout the CI/CD pipelines using GitHub Actions and HuggingFace Sapce for deployment.
+This repository is meant to delve the notion of MLOps throughout the CI/CD pipelines using GitHub Actions and HuggingFace Sapce for deployment. In a nutshell, here are the steps after pushing the code:
+
+1. Loading dataset
+2. Training an ML model (Classification)
+3. Log the model in a [DagsHub repository](https://dagshub.com/motta607/drug_classification) using `mlflow` framework
+4. Automatically promote the model for production if it beats the latter model based on pre-defined metrics (f1-score)
+5. Create some artifacts (a heatmap of the confusion matrix and store some metrics like accuracy and f1)
+6. Login and push the `streamlit` app on [Hugging Face Space](https://huggingface.co/spaces/davidemotta/CI-CD-ML). The app uses the model ready for production stored in DagsHub.
  - - - 
 # 🤖 MLOps
 In recent years, Machine Learning Operations (MLOps) has emerged as one of the most sought-after fields in the tech industry. With businesses increasingly relying on data-driven solutions, MLOps professionals are in high demand to deploy and manage machine learning models effectively.
